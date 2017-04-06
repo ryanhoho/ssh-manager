@@ -5,46 +5,41 @@ A simple script to manage ssh connections on *inx ( Such as UNIX, Linux, Mac OS,
 
 ![screenshot](https://github.com/robinparisi/ssh-manager/raw/master/screenshot.png)
 
-## Basic introduction
+## 基础介绍
 
-    This shell script maintains a file database named ".ssh_servers " which located in "$HOME/.ssh_servers".
-    With this sh, you can use its list to help you remember which hosts you can connect to and what username 
-    and ip and port are them.
+    在原脚本基础上做了一定的调整。
+    1. 去除了机器状态ping功能
+    2. 可以管理密码，并自动链接
+    3. 新增了sftp链接
+    4. 修改密码
 
-    You can customize it with more powerfull functions to easy and widly use.
+    [ryan@heshiweideMacBook-Pro ~ ]$ rssh
+    ----    ----    ----    ----    ----    ----    ----    ----
+    List of availables servers for user ryan
+    ----    ----    ----    ----    ----    ----    ----    ----
+    [OK]    test1 ==> root@192.186.1.8 -> 22     passwd: 123456
+    [OK]    test ==> root@192.168.1.8 -> 22  passwd: 123456
+    ----    ----    ----    ----    ----    ----    ----    ----
+    Availables commands
+    ----    ----    ----    ----    ----    ----    ----    ----
+    /Users/ryan/Workspace/RemoteServers/ssh-manager/ssh-manager.sh ssh  <alias> [username]      connect to server
+    /Users/ryan/Workspace/RemoteServers/ssh-manager/ssh-manager.sh sftp <alias> [username]      connect to sftp
+    /Users/ryan/Workspace/RemoteServers/ssh-manager/ssh-manager.sh add  <alias>:<user>:<host>:[port]:[password] add new server
+    /Users/ryan/Workspace/RemoteServers/ssh-manager/ssh-manager.sh del  <alias>             delete server
+    /Users/ryan/Workspace/RemoteServers/ssh-manager/ssh-manager.sh export                   export config
+    /Users/ryan/Workspace/RemoteServers/ssh-manager/ssh-manager.sh search   <alias>             search servers by alias
+    /Users/ryan/Workspace/RemoteServers/ssh-manager/ssh-manager.sh passwd   <alias> password                modify password of server
+    [ryan@heshiweideMacBook-Pro ~ ]$ cat .ssh_servers
+    test1:root:192.186.1.8::123456
+    test:root:192.168.1.8::123456
+    [ryan@heshiweideMacBook-Pro ~ ]$
 
-    Thanks!
-
-    # ./ssh-manager.sh add local:root:localhost:22
-	new alias 'local:root:localhost:22' added
-    # ./ssh-manager.sh add local:root:127.0.0.1:22
-	new alias 'local:root:127.0.0.1:22' added
-    # ./ssh-manager.sh add local:root:10.20.0.7:22
-	new alias 'local:root:10.20.0.7:22' added
-    # ./ssh-manager.sh
-	--------------------------------------------------------------------------------
-	List of availables servers for user root 
-	--------------------------------------------------------------------------------
-	[UP]   local ==> root@localhost -> 22
-	[UP]   local ==> root@127.0.0.1 -> 22
-	[UP]   local ==> root@10.20.0.7 -> 22
-	--------------------------------------------------------------------------------
-	Availables commands
-	--------------------------------------------------------------------------------
-	cc  <alias> [username]                           connect to server
-	add <alias>:<user>:<host>:[port]                 add new server
-	del <alias>                                      delete server
-	export                                           export config
-    # cat .ssh_servers 
-	local:root:localhost:22:
-	local:root:127.0.0.1:22:
-	local:root:10.20.0.7:22:
-    #
 
 ## Installation
 
     $ cd ~
-    $ wget --no-check-certificate https://raw.github.com/robinparisi/ssh-manager/master/ssh-manager.sh
+    $ git clone https://github.com/ryanhoho/ssh-manager.git
+    $ cd ssh-manager
     $ chmod +x ssh-manager.sh
     $ ./ssh-manager.sh
     
@@ -52,13 +47,15 @@ For more convenience, you can create an alias into your .bashrc, .zshrc, etc...
 
 For example :
 
-    alias sshs="/Users/robin/ssh-manager.sh"
+    alias rssh="/Users/robin/ssh-manager.sh"
 
 ## Use
 
-    cc  <alias> [username]                          
-    add <alias>:<user>:<host>:[port]                 
-    del <alias>                                      
+    ssh  <alias>                        
+    add <alias>:<user>:<host>:[port]:[password]             
+    del <alias>             
+    passwd <alias> newpassword
+    search <alias>                         
     export                                           
 
 ### Authors and Contributors
@@ -67,3 +64,5 @@ Original script by Errol Byrd
 Copyright (c) 2010, Errol Byrd 
 
 Modified by Robin Parisi (@robinparisi)
+
+Modifyed by Ryan
